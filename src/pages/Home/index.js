@@ -1,101 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
-
+import api from '../../services/api';
 import { ProductList } from './styles';
+import { formatPrice } from '../../util/format';
 
-export default function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-adidas-run-falcon-masculino/06/COL-6981-006/COL-6981-006_zoom2.jpg?ts=1584623858&ims=326x"
-          alt="tênis"
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129.90</span>
+export default class Home extends Component {
+  // eslint-disable-next-line react/state-in-constructor
+  state = {
+    products: [],
+  };
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />3
-          </div>
-          <span>ADICIONAR AO CARINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-adidas-run-falcon-masculino/06/COL-6981-006/COL-6981-006_zoom2.jpg?ts=1584623858&ims=326x"
-          alt="tênis"
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129.90</span>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />3
-          </div>
-          <span>ADICIONAR AO CARINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-adidas-run-falcon-masculino/06/COL-6981-006/COL-6981-006_zoom2.jpg?ts=1584623858&ims=326x"
-          alt="tênis"
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129.90</span>
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />3
-          </div>
-          <span>ADICIONAR AO CARINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-adidas-run-falcon-masculino/06/COL-6981-006/COL-6981-006_zoom2.jpg?ts=1584623858&ims=326x"
-          alt="tênis"
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129.90</span>
+    this.setState({ products: data });
+  }
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />3
-          </div>
-          <span>ADICIONAR AO CARINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-adidas-run-falcon-masculino/06/COL-6981-006/COL-6981-006_zoom2.jpg?ts=1584623858&ims=326x"
-          alt="tênis"
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129.90</span>
+  render() {
+    const { products } = this.state;
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />3
-          </div>
-          <span>ADICIONAR AO CARINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-adidas-run-falcon-masculino/06/COL-6981-006/COL-6981-006_zoom2.jpg?ts=1584623858&ims=326x"
-          alt="tênis"
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129.90</span>
+    return (
+      <ProductList>
+        {products.map(product => (
+          <li key={product.id}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormatted}</span>
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />3
-          </div>
-          <span>ADICIONAR AO CARINHO</span>
-        </button>
-      </li>
-    </ProductList>
-  );
+            <button type="button">
+              <div>
+                <MdAddShoppingCart size={16} color="#fff" />3
+              </div>
+              <span>ADICIONAR AO CARINHO</span>
+            </button>
+          </li>
+        ))}
+      </ProductList>
+    );
+  }
 }
