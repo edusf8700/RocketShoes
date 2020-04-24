@@ -32,9 +32,13 @@ function Cart({ cart, dispatch }) {
               </td>
               <td>
                 <div>
-                  <MdRemoveCircleOutline size={20} color="#7159c1" />
+                  <button type="button">
+                    <MdRemoveCircleOutline size={20} color="#7159c1" />
+                  </button>
                   <input type="number" readOnly value={product.amount} />
-                  <MdAddCircleOutline size={20} color="#7159c1" />
+                  <button type="button">
+                    <MdAddCircleOutline size={20} color="#7159c1" />
+                  </button>
                 </div>
               </td>
               <td>
@@ -50,7 +54,6 @@ function Cart({ cart, dispatch }) {
                   <MdDelete size={20} color="#7159c1" />
                 </button>
               </td>
-              <td />
             </tr>
           ))}
         </tbody>
